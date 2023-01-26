@@ -2,7 +2,10 @@ package com.dovahkir.foodapp.coldbox;
 
 import com.dovahkir.foodapp.beans.Freezer;
 import com.dovahkir.foodapp.beans.Fridge;
+import com.dovahkir.foodapp.foodItem.FoodItem;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "cold_box")
@@ -13,15 +16,17 @@ public class ColdBox {
     //private User user;
     @Column
     @Embedded
-    private Fridge fridge;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FoodItem> fridgeContent;
     @Column
     @Embedded
-    private Freezer freezer;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FoodItem> freezerContent;
 
-    public ColdBox(Long coldBoxID, Fridge fridge, Freezer freezer) {
+    public ColdBox(Long coldBoxID, List<FoodItem> fridgeContent, List<FoodItem> freezerContent) {
         this.coldBoxID = coldBoxID;
-        this.fridge = fridge;
-        this.freezer = freezer;
+        this.fridgeContent = fridgeContent;
+        this.freezerContent = freezerContent;
     }
 
     public Long getColdBoxID() {
@@ -32,19 +37,19 @@ public class ColdBox {
         this.coldBoxID = coldBoxID;
     }
 
-    public Fridge getFridge() {
-        return fridge;
+    public List<FoodItem> getFridgeContent() {
+        return fridgeContent;
     }
 
-    public void setFridge(Fridge fridge) {
-        this.fridge = fridge;
+    public void setFridgeContent(List<FoodItem> fridgeContent) {
+        this.fridgeContent = fridgeContent;
     }
 
-    public Freezer getFreezer() {
-        return freezer;
+    public List<FoodItem> getFreezerContent() {
+        return freezerContent;
     }
 
-    public void setFreezer(Freezer freezer) {
-        this.freezer = freezer;
+    public void setFreezerContent(List<FoodItem> freezerContent) {
+        this.freezerContent = freezerContent;
     }
 }
