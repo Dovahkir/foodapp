@@ -8,6 +8,7 @@ import com.dovahkir.foodapp.foodItem.FoodItem;
 import com.dovahkir.foodapp.foodItem.FoodItemRepo;
 import com.dovahkir.foodapp.foodItem.FoodItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,33 +33,30 @@ public class ColdBoxService {
         return coldBoxRepo.findById(id);
     }
 
-    public void addFoodItemFridge(Long coldBoxId, Long foodItemId) throws Throwable {
-        //Here, I find the correct fridge to be modified. Later I should add the ability to search by user instead of id.
-        ColdBox coldBox = (ColdBox) coldBoxRepo.findById(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Sorry, box not found."));
-
-        List<FoodItem> fridge = coldBox.getFridgeContent();
-
-        //Here, I find the correct food Item to be added to the coldbox. Same goes here. I should prob implement the ability to search by food name.
-        FoodItem foodItemToBeAdded = foodItemRepo.findById(foodItemId).orElseThrow(() -> new FoodItemNotFoundException("Soz no such food item exist in our midst."));
-        fridge.add(foodItemToBeAdded);
-
-        coldBox.setFridgeContent(fridge);
-        coldBoxRepo.save(coldBox);
+    // REMOVE THE ResponseEntity return type in the service class. Not  good practice.
+    void addFoodItemToColdBox(Long coldBoxId, Long foodItemId){
+        Optional<ColdBox> coldBox = coldBoxRepo.findById(coldBoxId);
+        Optional<FoodItem> foodItem = foodItemRepo.findById(foodItemId);
+        if(coldBox.isPresent() && foodItem.isPresent()) {
+            coldBox.get().getColdBoxContent().add(foodItem.get());
+            coldBoxRepo.save(coldBox.get());
+        }
     }
 
-    public void addFoodItemFreezer(Long coldBoxId, Long foodItemId) throws Throwable {
-        //Here, I find the correct freezer to be modified. Later I should add the ability to search by user instead of id.
-        ColdBox coldBox = (ColdBox) coldBoxRepo.findById(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Sorry, box not found."));
-
-        List<FoodItem> freezer = coldBox.getFreezerContent();
-
-        //Here, I find the correct food Item to be added to the coldbox. Same goes here. I should prob implement the ability to search by food name.
-        FoodItem foodItemToBeAdded = foodItemRepo.findById(foodItemId).orElseThrow(() -> new FoodItemNotFoundException("Soz no such food item exist in our midst."));
-        freezer.add(foodItemToBeAdded);
-
-        coldBox.setFreezerContent(freezer);
-        coldBoxRepo.save(coldBox);
+    void deleteFoodItemFromColdBox(Long coldBoxId, Long foodItemId){
+        Optional<ColdBox> coldBox = coldBoxRepo.findById(coldBoxId);
+        if(coldBox.isPresent()){
+            List<FoodItem> coldBoxFoodItemList = coldBox.get().getColdBoxContent();
+            coldBoxFoodItemList.
+        }
     }
+
+    Optional<List<FoodItem>> getFoodItemsInColdBox(Long coldBoxId){
+        Optional<ColdBox> coldBox = coldBoxRepo.findById(coldBoxId);
+        return coldBox.map(ColdBox::getColdBoxContent);
+    }
+
+
 
     List<ColdBox> getAllColdBox(){
         return (List<ColdBox>) coldBoxRepo.findAll();

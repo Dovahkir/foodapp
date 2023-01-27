@@ -100,3 +100,9 @@ insert into FOOD_ITEM (NAME, INTAKE_DATE, EXPIRY_DATE ) values ('Cheese - Le Che
 insert into FOOD_ITEM (NAME, INTAKE_DATE, EXPIRY_DATE ) values ('Tomato - Green', '2023-01-27', '2023-02-01');
 insert into FOOD_ITEM (NAME, INTAKE_DATE, EXPIRY_DATE ) values ('Lettuce Romaine Chopped', '2023-01-25', '2023-02-06');
 insert into FOOD_ITEM (NAME, INTAKE_DATE, EXPIRY_DATE ) values ('Pie Box - Cello Window 2.5', '2023-01-26', '2023-02-08');
+
+
+-- Inserting data for the coldbox
+insert into COLDBOX (COLD_BOX_NAME) values ('Samsung Fridge');
+insert into COLDBOX (COLD_BOX_NAME) values ('LG Fridge');
+

@@ -1,55 +1,59 @@
 package com.dovahkir.foodapp.coldbox;
 
-import com.dovahkir.foodapp.beans.Freezer;
-import com.dovahkir.foodapp.beans.Fridge;
 import com.dovahkir.foodapp.foodItem.FoodItem;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-@Table(name = "cold_box")
+@Table(name = "coldbox")
 public class ColdBox {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long coldBoxID;
+    private Long coldBoxId;
+    @Column
+    private String coldBoxName;
+
     //private User user;
-    @Column
-    @Embedded
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FoodItem> fridgeContent;
-    @Column
-    @Embedded
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FoodItem> freezerContent;
 
-    public ColdBox(Long coldBoxID, List<FoodItem> fridgeContent, List<FoodItem> freezerContent) {
-        this.coldBoxID = coldBoxID;
-        this.fridgeContent = fridgeContent;
-        this.freezerContent = freezerContent;
+    //@OneToMany(mappedBy = "coldBox",cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
+    @JoinTable(name = "coldBox_foodItem", joinColumns = @JoinColumn(name = "coldBox_id"), inverseJoinColumns = @JoinColumn(name = "foodItem_id"))
+    private List<FoodItem> coldBoxContent;
+
+    public ColdBox(){}
+
+    public ColdBox(Long coldBoxId, String coldBoxName, List<FoodItem> coldBoxContent) {
+        this.coldBoxId = coldBoxId;
+        this.coldBoxName = coldBoxName;
+        this.coldBoxContent = coldBoxContent;
     }
 
-    public Long getColdBoxID() {
-        return coldBoxID;
+    public void removeFoodItem(FoodItem foodItem){
+        coldBoxContent.remove(foodItem);
     }
 
-    public void setColdBoxID(Long coldBoxID) {
-        this.coldBoxID = coldBoxID;
+    public Long getColdBoxId() {
+        return coldBoxId;
     }
 
-    public List<FoodItem> getFridgeContent() {
-        return fridgeContent;
+    public void setColdBoxId(Long coldBoxId) {
+        this.coldBoxId = coldBoxId;
     }
 
-    public void setFridgeContent(List<FoodItem> fridgeContent) {
-        this.fridgeContent = fridgeContent;
+    public String getColdBoxName() {
+        return coldBoxName;
     }
 
-    public List<FoodItem> getFreezerContent() {
-        return freezerContent;
+    public void setColdBoxName(String coldBoxName) {
+        this.coldBoxName = coldBoxName;
     }
 
-    public void setFreezerContent(List<FoodItem> freezerContent) {
-        this.freezerContent = freezerContent;
+    public List<FoodItem> getColdBoxContent() {
+        return coldBoxContent;
+    }
+
+    public void setColdBoxContent(List<FoodItem> coldBoxContent) {
+        this.coldBoxContent = coldBoxContent;
     }
 }

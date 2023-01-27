@@ -1,13 +1,13 @@
 package com.dovahkir.foodapp.coldbox;
 
 import com.dovahkir.foodapp.exceptions.ColdBoxNotFoundException;
+import com.dovahkir.foodapp.foodItem.FoodItem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/coldbox")
@@ -20,13 +20,29 @@ public class ColdBoxController {
         this.coldBoxService = coldBoxService;
     }
 
-    @GetMapping("/{id}")
-    ColdBox getColdBox(@PathVariable Long id){
-        return coldBoxService.getColdBoxByID(id).orElseThrow(() -> new ColdBoxNotFoundException("Cold box not found"));
+    @GetMapping("/{coldBoxId}")
+    ColdBox getColdBox(@PathVariable Long coldBoxId){
+        return coldBoxService.getColdBoxByID(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Cold box not found"));
     }
 
     @GetMapping
     List<ColdBox> getAllColdBox(){
         return coldBoxService.getAllColdBox();
+    }
+
+    @GetMapping("/{coldBoxId}/foodItems")
+    ResponseEntity<List<FoodItem>> getAllFoodItemsInColdBox(@PathVariable Long coldBoxId){
+        Optional<List<FoodItem>> foodItems = coldBoxService.getFoodItemsInColdBox(coldBoxId);
+        if (foodItems.isPresent()){
+            return ResponseEntity.ok(foodItems.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{coldBoxId}/{foodItemId}")
+    ResponseEntity<Void> addNewFoodItemToColdBox(@PathVariable("coldBoxId") Long coldBoxId,@PathVariable("foodItemId") Long foodItemId){
+        coldBoxService.addFoodItemToColdBox(coldBoxId, foodItemId);
+        return ResponseEntity.ok().build();
     }
 }

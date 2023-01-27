@@ -1,12 +1,15 @@
 package com.dovahkir.foodapp.foodItem;
 
 
+import com.dovahkir.foodapp.coldbox.ColdBox;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "food_item")
 public class FoodItem {
@@ -22,6 +25,10 @@ public class FoodItem {
     @DateTimeFormat/*(pattern = "dd-MM-yyyy")*/
     @Column(name = "expiryDate", nullable = false)
     private Date expiryDate;
+//    @ManyToOne
+//    @JoinColumn(name="coldbox_id")
+    @ManyToMany(mappedBy = "coldBoxContent")
+    private List<ColdBox> coldBox;
 
     @Column(name = "remainingDays", nullable = true)
     private Duration remainingDays;
