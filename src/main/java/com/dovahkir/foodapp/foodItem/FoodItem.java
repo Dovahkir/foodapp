@@ -32,6 +32,9 @@ public class FoodItem {
 
     @Column(name = "remainingDays", nullable = true)
     private Duration remainingDays;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "foodItemDateId")
+    private FoodItemDate foodItemDate;
 
     public FoodItem() {
     }

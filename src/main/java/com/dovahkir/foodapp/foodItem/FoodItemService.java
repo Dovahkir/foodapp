@@ -26,6 +26,8 @@ public class FoodItemService {
         return (List<FoodItem>) foodItemRepo.findAll();
     }
 
+    //Maybe create a PUT mapping for updting foodItems. Example: I made a mistake in the expiry date and want to fix it
+    //Wrting this...The food items belong to everyone so how do I set the expiry date for user 1 and different one for user2
     FoodItem updateFoodItem(FoodItem foodItem){
         return foodItemRepo.save(foodItem);
     }

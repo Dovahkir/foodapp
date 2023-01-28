@@ -43,14 +43,6 @@ public class ColdBoxService {
         }
     }
 
-    void deleteFoodItemFromColdBox(Long coldBoxId, Long foodItemId){
-        Optional<ColdBox> coldBox = coldBoxRepo.findById(coldBoxId);
-        if(coldBox.isPresent()){
-            List<FoodItem> coldBoxFoodItemList = coldBox.get().getColdBoxContent();
-            coldBoxFoodItemList.
-        }
-    }
-
     Optional<List<FoodItem>> getFoodItemsInColdBox(Long coldBoxId){
         Optional<ColdBox> coldBox = coldBoxRepo.findById(coldBoxId);
         return coldBox.map(ColdBox::getColdBoxContent);
@@ -60,5 +52,17 @@ public class ColdBoxService {
 
     List<ColdBox> getAllColdBox(){
         return (List<ColdBox>) coldBoxRepo.findAll();
+    }
+
+    void deleteFoodItemFromColdBox(Long coldBoxId, Long foodItemId){
+        Optional<ColdBox> coldBox = coldBoxRepo.findById(coldBoxId);
+
+        //When I use the Optional to check wether or not the FoodItem is present. Im checking if it is present in the global database, not if its present in the current coldBox. I dont know if it makes more sense to check inside coldBox
+        Optional<FoodItem> foodItemToBeRemoved = foodItemRepo.findById(foodItemId);
+
+        if(coldBox.isPresent() && foodItemToBeRemoved.isPresent()){
+            coldBox.get().removeFoodItem(foodItemToBeRemoved.get());
+            coldBoxRepo.save(coldBox.get());
+        }
     }
 }

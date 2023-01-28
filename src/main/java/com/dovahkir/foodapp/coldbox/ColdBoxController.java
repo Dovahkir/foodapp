@@ -40,9 +40,16 @@ public class ColdBoxController {
         }
     }
 
+    //Fix the fact that the post allows to post the same footItem regardless of its anterior presence
     @PostMapping("/{coldBoxId}/{foodItemId}")
     ResponseEntity<Void> addNewFoodItemToColdBox(@PathVariable("coldBoxId") Long coldBoxId,@PathVariable("foodItemId") Long foodItemId){
         coldBoxService.addFoodItemToColdBox(coldBoxId, foodItemId);
+        return ResponseEntity.ok().build();
+    }
+    //fix: the response when trying to delete an item that is not present should be indicative of that
+    @DeleteMapping("/{coldBoxId}/{foodItemId}")
+    ResponseEntity<Void> deleteAFoodItemFromColdBox(@PathVariable("coldBoxId") Long coldBoxId,@PathVariable("foodItemId") Long foodItemId){
+        coldBoxService.deleteFoodItemFromColdBox(coldBoxId, foodItemId);
         return ResponseEntity.ok().build();
     }
 }

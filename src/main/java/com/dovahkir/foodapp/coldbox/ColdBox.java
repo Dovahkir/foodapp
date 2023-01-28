@@ -30,7 +30,9 @@ public class ColdBox {
     }
 
     public void removeFoodItem(FoodItem foodItem){
-        coldBoxContent.remove(foodItem);
+        if(coldBoxContent.contains(foodItem)){
+            coldBoxContent.remove(foodItem);
+        }
     }
 
     public Long getColdBoxId() {
