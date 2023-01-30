@@ -26,10 +26,13 @@ public class FoodItemController {
     List<FoodItem> getAllFoodItem(){
         return foodItemService.getAllFoodItem();
     }
+
     @PostMapping("/newFoodItem")
     FoodItem newFoodItem(@Validated @RequestBody FoodItem newFoodItem){
         return foodItemService.saveFoodItem(newFoodItem);
     }
+
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

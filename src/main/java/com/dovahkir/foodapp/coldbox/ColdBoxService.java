@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,10 +49,15 @@ public class ColdBoxService {
         return coldBox.map(ColdBox::getColdBoxContent);
     }
 
-
-
     List<ColdBox> getAllColdBox(){
         return (List<ColdBox>) coldBoxRepo.findAll();
+    }
+
+
+    void changeFoodItemExpiryDate(Long coldBoxId, Long foodItemId, String newDate){
+        Optional<ColdBox> coldBox = coldBoxRepo.findById(coldBoxId);
+        FoodItem foodItemToBeModified = coldBox.get().getColdBoxContent().stream().filter(foodItem -> foodItemId==foodItem.getId()).findAny().orElse(null);
+        foodItemToBeModified.setExpiryTime(LocalDateTime.parse(newDate));
     }
 
     void deleteFoodItemFromColdBox(Long coldBoxId, Long foodItemId){
