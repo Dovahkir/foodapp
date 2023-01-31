@@ -28,7 +28,6 @@ public class FoodItem {
 
     @Column(name = "CreatedDate", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
-    //@JsonInclude(JsonInclude.Include.NON_NULL)
 //    @JsonSerialize
 //    @JsonDeserialize
 //    @JsonFormat(shape = JsonFormat.Shape.STRING)
