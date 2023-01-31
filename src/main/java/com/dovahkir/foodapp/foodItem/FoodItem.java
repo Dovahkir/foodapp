@@ -3,13 +3,17 @@ package com.dovahkir.foodapp.foodItem;
 
 import com.dovahkir.foodapp.coldbox.ColdBox;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,20 +28,32 @@ public class FoodItem {
 
     @Column(name = "CreatedDate", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
+//    @JsonSerialize
+//    @JsonDeserialize
+//    @JsonFormat(shape = JsonFormat.Shape.STRING)
     //@DateTimeFormat(iso = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    //@JsonIgnore
+//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//    @JsonSerialize(using = LocalDateTimeSerializer.class)
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",shape = JsonFormat.Shape.STRING)
     private LocalDateTime addedTime;
 
-    @Column(name = "ExpiryTime", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "ExpiryTime", nullable = true, columnDefinition = "TIMESTAMP")
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
+//    @JsonSerialize
+//    @JsonDeserialize
+//    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    //@JsonIgnore
+//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//    @JsonSerialize(using = LocalDateTimeSerializer.class)
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", shape = JsonFormat.Shape.STRING)
     private LocalDateTime expiryTime;
 
-    @Column(name = "intakeDate", nullable = false)
-    private ZonedDateTime intakeDate = ZonedDateTime.now();
-    @DateTimeFormat/*(pattern = "dd-MM-yyyy")*/
-    @Column(name = "expiryDate", nullable = false)
-    private LocalDateTime expiryDate;
 
-    @ManyToMany(mappedBy = "coldBoxContent")
+    //I really dont understand why we needed that annotation really
+    @JsonIgnore
+    @OneToMany(mappedBy = "foodItem")
     private List<ColdBox> coldBox;
 
     @Column(name = "remainingDays", nullable = true)
@@ -47,13 +63,11 @@ public class FoodItem {
     public FoodItem() {
     }
 
-    public FoodItem(Long id, String foodItemName, LocalDateTime addedTime, LocalDateTime expiryTime, ZonedDateTime intakeDate, Date expiryDate, List<ColdBox> coldBox, Duration remainingDays) {
+    public FoodItem(Long id, String foodItemName, LocalDateTime addedTime, LocalDateTime expiryTime, ZonedDateTime intakeDate, LocalDateTime expiryDate, List<ColdBox> coldBox, Duration remainingDays) {
         this.id = id;
         this.foodItemName = foodItemName;
         this.addedTime = addedTime;
         this.expiryTime = expiryTime;
-        this.intakeDate = intakeDate;
-        this.expiryDate = addedTime.plusDays(7);
         this.coldBox = coldBox;
         this.remainingDays = remainingDays;
     }

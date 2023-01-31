@@ -47,10 +47,10 @@ public class ColdBoxController {
         return ResponseEntity.ok().build();
     }
 
-//    @PutMapping("/{coldBoxId}/{foodItemId}/{newDate}")
-//    void changeFoodItemExpDate(@PathVariable Long coldBoxId, @PathVariable Long foodItemId, @PathVariable String newDate){
-//        coldBoxService.changeFoodItemExpiryDate(coldBoxId,foodItemId,newDate);
-//    }
+    @PutMapping("/{coldBoxId}/{foodItemId}/{newDate}")
+    void changeFoodItemExpDate(@PathVariable Long coldBoxId, @PathVariable Long foodItemId, @PathVariable String newDate){
+        coldBoxService.changeFoodItemExpiryDate(coldBoxId,foodItemId,newDate);
+    }
 
     //fix: the response when trying to delete an item that is not present should be indicative of that
     @DeleteMapping("/{coldBoxId}/{foodItemId}")
