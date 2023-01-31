@@ -29,6 +29,29 @@ public class ColdBoxService {
         return coldBoxRepo.findById(id);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // REMOVE THE ResponseEntity return type in the service class. Not  good practice.
 //    void addFoodItemToColdBox(Long coldBoxId, Long foodItemId){
 //        Optional<ColdBox> coldBox = coldBoxRepo.findById(coldBoxId);
