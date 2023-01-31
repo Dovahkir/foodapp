@@ -1,5 +1,7 @@
 package com.dovahkir.foodapp.coldbox;
 
+import com.dovahkir.foodapp.coldboxfooditem.ColdBoxFoodItem;
+import com.dovahkir.foodapp.exceptions.ColdBoxNotFoundException;
 import com.dovahkir.foodapp.exceptions.FoodItemNotFoundException;
 import com.dovahkir.foodapp.foodItem.FoodItem;
 import com.dovahkir.foodapp.foodItem.FoodItemRepo;
@@ -27,6 +29,19 @@ public class ColdBoxService {
 
     Optional<ColdBox> getColdBoxByID(Long id){
         return coldBoxRepo.findById(id);
+    }
+
+    ColdBox addFoodItemToColdBox(Long coldBoxId, Long foodItemId){
+        ColdBox coldBox = coldBoxRepo.findById(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("no coldbox found.Please create one"));
+        FoodItem foodItemToBeAdded = foodItemRepo.findById(foodItemId).orElseThrow(()-> new FoodItemNotFoundException("Sorry mate. Theres doesn't appear to be any food by that ID"));
+
+        ColdBoxFoodItem foodItemReadyTobeAdded = new ColdBoxFoodItem(coldBox,foodItemToBeAdded);
+
+        coldBox.getColdBoxFoodItems().add(foodItemReadyTobeAdded);
+
+        coldBoxRepo.save(coldBox);
+
+        return coldBox;
     }
 
 

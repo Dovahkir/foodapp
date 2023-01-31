@@ -20,10 +20,16 @@ public class ColdBoxController {
         this.coldBoxService = coldBoxService;
     }
 
-//    @GetMapping("/{coldBoxId}")
-//    ColdBox getColdBox(@PathVariable Long coldBoxId){
-//        return coldBoxService.getColdBoxByID(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Cold box not found"));
-//    }
+    @GetMapping("/{coldBoxId}")
+    ColdBox getColdBox(@PathVariable Long coldBoxId){
+        return coldBoxService.getColdBoxByID(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Cold box not found"));
+    }
+
+    @PostMapping("/{coldBoxId}/{foodItemId}")
+    ResponseEntity<ColdBox> addFoodItemToColdBox(@PathVariable Long coldBoxId,@PathVariable Long foodItemId){
+        ColdBox coldBox = coldBoxService.addFoodItemToColdBox(coldBoxId, foodItemId);
+        return ResponseEntity.ok(coldBox);
+    }
 //
 //    @GetMapping
 //    List<ColdBox> getAllColdBox(){

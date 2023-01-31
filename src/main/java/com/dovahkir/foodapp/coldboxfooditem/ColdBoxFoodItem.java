@@ -26,4 +26,21 @@ public class ColdBoxFoodItem {
 
     public ColdBoxFoodItem() {
     }
+
+    public ColdBoxFoodItem(ColdBox coldBox, FoodItem foodItem) {
+        this();
+        this.coldBox = coldBox;
+        this.foodItem = foodItem;
+    }
+
+    public ColdBoxFoodItem(Long id, int nbReplica, LocalDateTime addedTime, LocalDateTime expiryDate, ColdBox coldBox, FoodItem foodItem) {
+        this.id = id;
+        this.nbReplica = nbReplica;
+        this.addedTime = addedTime;
+        this.expiryDate = expiryDate;
+        this.coldBox = coldBox;
+        this.foodItem = foodItem;
+    }
+
+
 }
