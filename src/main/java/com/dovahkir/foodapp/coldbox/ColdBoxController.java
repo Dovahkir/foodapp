@@ -20,42 +20,42 @@ public class ColdBoxController {
         this.coldBoxService = coldBoxService;
     }
 
-    @GetMapping("/{coldBoxId}")
-    ColdBox getColdBox(@PathVariable Long coldBoxId){
-        return coldBoxService.getColdBoxByID(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Cold box not found"));
-    }
-
-    @GetMapping
-    List<ColdBox> getAllColdBox(){
-        return coldBoxService.getAllColdBox();
-    }
-
-    @GetMapping("/{coldBoxId}/foodItems")
-    ResponseEntity<List<FoodItem>> getAllFoodItemsInColdBox(@PathVariable Long coldBoxId){
-        Optional<List<FoodItem>> foodItems = coldBoxService.getFoodItemsInColdBox(coldBoxId);
-        if (foodItems.isPresent()){
-            return ResponseEntity.ok(foodItems.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    //Fix the fact that the post allows to post the same footItem regardless of its anterior presence
-    @PostMapping("/{coldBoxId}/{foodItemId}")
-    ResponseEntity<Void> addNewFoodItemToColdBox(@PathVariable("coldBoxId") Long coldBoxId,@PathVariable("foodItemId") Long foodItemId){
-        coldBoxService.addFoodItemToColdBox(coldBoxId, foodItemId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/{coldBoxId}/{foodItemId}/{newDate}")
-    void changeFoodItemExpDate(@PathVariable Long coldBoxId, @PathVariable Long foodItemId, @PathVariable String newDate){
-        coldBoxService.changeFoodItemExpiryDate(coldBoxId,foodItemId,newDate);
-    }
-
-    //fix: the response when trying to delete an item that is not present should be indicative of that
-    @DeleteMapping("/{coldBoxId}/{foodItemId}")
-    ResponseEntity<Void> deleteAFoodItemFromColdBox(@PathVariable("coldBoxId") Long coldBoxId,@PathVariable("foodItemId") Long foodItemId){
-        coldBoxService.deleteFoodItemFromColdBox(coldBoxId, foodItemId);
-        return ResponseEntity.ok().build();
-    }
+//    @GetMapping("/{coldBoxId}")
+//    ColdBox getColdBox(@PathVariable Long coldBoxId){
+//        return coldBoxService.getColdBoxByID(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Cold box not found"));
+//    }
+//
+//    @GetMapping
+//    List<ColdBox> getAllColdBox(){
+//        return coldBoxService.getAllColdBox();
+//    }
+//
+//    @GetMapping("/{coldBoxId}/foodItems")
+//    ResponseEntity<List<FoodItem>> getAllFoodItemsInColdBox(@PathVariable Long coldBoxId){
+//        Optional<List<FoodItem>> foodItems = coldBoxService.getFoodItemsInColdBox(coldBoxId);
+//        if (foodItems.isPresent()){
+//            return ResponseEntity.ok(foodItems.get());
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+//    //Fix the fact that the post allows to post the same footItem regardless of its anterior presence
+//    @PostMapping("/{coldBoxId}/{foodItemId}")
+//    ResponseEntity<Void> addNewFoodItemToColdBox(@PathVariable("coldBoxId") Long coldBoxId,@PathVariable("foodItemId") Long foodItemId){
+//        coldBoxService.addFoodItemToColdBox(coldBoxId, foodItemId);
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @PutMapping("/{coldBoxId}/{foodItemId}/{newDate}")
+//    void changeFoodItemExpDate(@PathVariable Long coldBoxId, @PathVariable Long foodItemId, @PathVariable String newDate){
+//        coldBoxService.changeFoodItemExpiryDate(coldBoxId,foodItemId,newDate);
+//    }
+//
+//    //fix: the response when trying to delete an item that is not present should be indicative of that
+//    @DeleteMapping("/{coldBoxId}/{foodItemId}")
+//    ResponseEntity<Void> deleteAFoodItemFromColdBox(@PathVariable("coldBoxId") Long coldBoxId,@PathVariable("foodItemId") Long foodItemId){
+//        coldBoxService.deleteFoodItemFromColdBox(coldBoxId, foodItemId);
+//        return ResponseEntity.ok().build();
+//    }
 }

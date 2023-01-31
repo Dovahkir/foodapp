@@ -37,7 +37,7 @@ public class FoodItem {
 //    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
 //    @JsonSerialize(using = LocalDateTimeSerializer.class)
 //    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",shape = JsonFormat.Shape.STRING)
-    private LocalDateTime addedTime;
+    private LocalDateTime creationTime;
 
     @Column(name = "ExpiryTime", nullable = true, columnDefinition = "TIMESTAMP")
     //@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -63,10 +63,10 @@ public class FoodItem {
     public FoodItem() {
     }
 
-    public FoodItem(Long id, String foodItemName, LocalDateTime addedTime, LocalDateTime expiryTime, ZonedDateTime intakeDate, LocalDateTime expiryDate, List<ColdBox> coldBox, Duration remainingDays) {
+    public FoodItem(Long id, String foodItemName, LocalDateTime creationTime, LocalDateTime expiryTime, List<ColdBox> coldBox, Duration remainingDays) {
         this.id = id;
         this.foodItemName = foodItemName;
-        this.addedTime = addedTime;
+        this.creationTime = creationTime;
         this.expiryTime = expiryTime;
         this.coldBox = coldBox;
         this.remainingDays = remainingDays;
@@ -88,12 +88,12 @@ public class FoodItem {
         this.foodItemName = foodItemName;
     }
 
-    public LocalDateTime getAddedTime() {
-        return addedTime;
+    public LocalDateTime getCreationTime() {
+        return creationTime;
     }
 
-    public void setAddedTime(LocalDateTime addedTime) {
-        this.addedTime = addedTime;
+    public void setAddedTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 
     public LocalDateTime getExpiryTime() {
@@ -102,22 +102,6 @@ public class FoodItem {
 
     public void setExpiryTime(LocalDateTime expiryTime) {
         this.expiryTime = expiryTime;
-    }
-
-    public ZonedDateTime getIntakeDate() {
-        return intakeDate;
-    }
-
-    public void setIntakeDate(ZonedDateTime intakeDate) {
-        this.intakeDate = intakeDate;
-    }
-
-    public LocalDateTime getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDateTime expiryDate) {
-        this.expiryDate = expiryDate;
     }
 
     public List<ColdBox> getColdBox() {
