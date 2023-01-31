@@ -2,6 +2,7 @@ package com.dovahkir.foodapp.coldbox;
 
 import com.dovahkir.foodapp.exceptions.ColdBoxNotFoundException;
 import com.dovahkir.foodapp.foodItem.FoodItem;
+import com.dovahkir.foodapp.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,16 +26,22 @@ public class ColdBoxController {
         return coldBoxService.getColdBoxByID(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Cold box not found"));
     }
 
-    @PostMapping("/{coldBoxId}/{foodItemId}")
+    @PostMapping("/{userId}/createColdBox")
+    ResponseEntity<ColdBox> createNewColdBox(@PathVariable User userId){
+        ColdBox coldBoxWithoutUserYet = new ColdBox();
+        coldBoxWithoutUserYet.setUser();
+    }
+
+    @PutMapping("/{coldBoxId}/{foodItemId}")
     ResponseEntity<ColdBox> addFoodItemToColdBox(@PathVariable Long coldBoxId,@PathVariable Long foodItemId){
         ColdBox coldBox = coldBoxService.addFoodItemToColdBox(coldBoxId, foodItemId);
         return ResponseEntity.ok(coldBox);
     }
-//
-//    @GetMapping
-//    List<ColdBox> getAllColdBox(){
-//        return coldBoxService.getAllColdBox();
-//    }
+
+    @GetMapping
+    List<ColdBox> getAllColdBox(){
+        return coldBoxService.getAllColdBox();
+    }
 //
 //    @GetMapping("/{coldBoxId}/foodItems")
 //    ResponseEntity<List<FoodItem>> getAllFoodItemsInColdBox(@PathVariable Long coldBoxId){

@@ -30,7 +30,9 @@ public class ColdBoxService {
     Optional<ColdBox> getColdBoxByID(Long id){
         return coldBoxRepo.findById(id);
     }
-
+    List<ColdBox> getAllColdBox(){
+        return (List<ColdBox>) coldBoxRepo.findAll();
+    }
     ColdBox addFoodItemToColdBox(Long coldBoxId, Long foodItemId){
         ColdBox coldBox = coldBoxRepo.findById(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("no coldbox found.Please create one"));
         FoodItem foodItemToBeAdded = foodItemRepo.findById(foodItemId).orElseThrow(()-> new FoodItemNotFoundException("Sorry mate. Theres doesn't appear to be any food by that ID"));
@@ -82,9 +84,7 @@ public class ColdBoxService {
 //        return coldBox.map(ColdBox::getColdBoxContent);
 //    }
 //
-//    List<ColdBox> getAllColdBox(){
-//        return (List<ColdBox>) coldBoxRepo.findAll();
-//    }
+
 //
 //
 //    void changeFoodItemExpiryDate(Long coldBoxId, Long foodItemId, String newDate){
