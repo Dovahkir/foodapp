@@ -3,8 +3,11 @@ package com.dovahkir.foodapp.coldbox;
 import com.dovahkir.foodapp.coldboxfooditem.ColdBoxFoodItem;
 import com.dovahkir.foodapp.exceptions.ColdBoxNotFoundException;
 import com.dovahkir.foodapp.exceptions.FoodItemNotFoundException;
+import com.dovahkir.foodapp.exceptions.UserNotFoundException;
 import com.dovahkir.foodapp.foodItem.FoodItem;
 import com.dovahkir.foodapp.foodItem.FoodItemRepo;
+import com.dovahkir.foodapp.user.User;
+import com.dovahkir.foodapp.user.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +18,23 @@ import java.util.Optional;
 @Service
 public class ColdBoxService {
 
+    private UserRepo userRepo;
     private ColdBoxRepo coldBoxRepo;
     private FoodItemRepo foodItemRepo;
     @Autowired
-    public ColdBoxService(ColdBoxRepo coldBoxRepo, FoodItemRepo foodItemRepo) {
+    public ColdBoxService(UserRepo userRepo, ColdBoxRepo coldBoxRepo, FoodItemRepo foodItemRepo) {
+        this.userRepo = userRepo;
         this.coldBoxRepo = coldBoxRepo;
         this.foodItemRepo = foodItemRepo;
     }
 
     ColdBox createColdBox(ColdBox coldBox){
         return (ColdBox) coldBoxRepo.save(coldBox);
+    }
+
+    ColdBox createColdBoxForUserId(Long userId){
+        ColdBox coldBox = new ColdBox(userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("Sorry matey. Not user by that ID found.")));
+        return coldBoxRepo.save(coldBox);
     }
 
     Optional<ColdBox> getColdBoxByID(Long id){
@@ -34,15 +44,16 @@ public class ColdBoxService {
         return (List<ColdBox>) coldBoxRepo.findAll();
     }
     ColdBox addFoodItemToColdBox(Long coldBoxId, Long foodItemId){
-        ColdBox coldBox = coldBoxRepo.findById(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("no coldbox found.Please create one"));
-        FoodItem foodItemToBeAdded = foodItemRepo.findById(foodItemId).orElseThrow(()-> new FoodItemNotFoundException("Sorry mate. Theres doesn't appear to be any food by that ID"));
+        ColdBox coldBox = coldBoxRepo.findById(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("No coldbox found by that ID.Please create one"));
+        FoodItem foodItemToBeAdded = foodItemRepo.findById(foodItemId).orElseThrow(()-> new FoodItemNotFoundException("Sorry mate. There doesn't appear to be any food by that ID"));
 
         ColdBoxFoodItem foodItemReadyTobeAdded = new ColdBoxFoodItem(coldBox,foodItemToBeAdded);
 
+        System.out.println(foodItemReadyTobeAdded.getFoodItem().getFoodItemName());
+        System.out.println(foodItemReadyTobeAdded.getColdBox().getColdBoxId());
+
         coldBox.getColdBoxFoodItems().add(foodItemReadyTobeAdded);
-
         coldBoxRepo.save(coldBox);
-
         return coldBox;
     }
 

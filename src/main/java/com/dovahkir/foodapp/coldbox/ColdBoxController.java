@@ -27,9 +27,9 @@ public class ColdBoxController {
     }
 
     @PostMapping("/{userId}/createColdBox")
-    ResponseEntity<ColdBox> createNewColdBox(@PathVariable User userId){
-        ColdBox coldBoxWithoutUserYet = new ColdBox();
-        coldBoxWithoutUserYet.setUser();
+    ResponseEntity<ColdBox> createNewColdBox(@PathVariable Long userId){
+        ColdBox coldBox = coldBoxService.createColdBoxForUserId(userId);
+        return ResponseEntity.ok(coldBox);
     }
 
     @PutMapping("/{coldBoxId}/{foodItemId}")

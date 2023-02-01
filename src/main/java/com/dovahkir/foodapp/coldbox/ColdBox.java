@@ -2,6 +2,7 @@ package com.dovahkir.foodapp.coldbox;
 
 import com.dovahkir.foodapp.coldboxfooditem.ColdBoxFoodItem;
 import com.dovahkir.foodapp.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -14,12 +15,19 @@ public class ColdBox {
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
-    @OneToMany(mappedBy = "coldBox")
+
+
+    @OneToMany(mappedBy = "coldBox", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ColdBoxFoodItem> coldBoxFoodItems;
     @Column
     private String coldBoxName;
 
     public ColdBox(){}
+
+    public ColdBox(User user) {
+        this();
+        this.user = user;
+    }
 
     public ColdBox(Long coldBoxId, User user, List<ColdBoxFoodItem> coldBoxFoodItems, String coldBoxName) {
         this.coldBoxId = coldBoxId;

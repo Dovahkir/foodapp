@@ -17,9 +17,10 @@ public class FoodItem {
     @Column(name = "CreatedDate", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
     private LocalDateTime creationTime;
-    @Column(name = "ExpiryTime", nullable = true, columnDefinition = "TIMESTAMP")
 
+    @Column(name = "ExpiryTime", nullable = true, columnDefinition = "TIMESTAMP")
     private LocalDateTime expiryTime;
+
     public FoodItem() {
     }
 
