@@ -18,17 +18,15 @@ public class FoodItem {
     @CreationTimestamp
     private LocalDateTime creationTime;
 
-    @Column(name = "ExpiryTime", nullable = true, columnDefinition = "TIMESTAMP")
-    private LocalDateTime expiryTime;
 
     public FoodItem() {
     }
 
-    public FoodItem(Long foodItemId, String foodItemName, LocalDateTime creationTime, LocalDateTime expiryTime) {
+    public FoodItem(Long foodItemId, String foodItemName, LocalDateTime creationTime) {
         this.foodItemId = foodItemId;
         this.foodItemName = foodItemName;
         this.creationTime = creationTime;
-        this.expiryTime = expiryTime;
+
     }
 
     public Long getFoodItemId() {
@@ -51,15 +49,5 @@ public class FoodItem {
         return creationTime;
     }
 
-    public void setCreationTime(LocalDateTime creationTime) {
-        this.creationTime = creationTime;
-    }
 
-    public LocalDateTime getExpiryTime() {
-        return expiryTime;
-    }
-
-    public void setExpiryTime(LocalDateTime expiryTime) {
-        this.expiryTime = expiryTime;
-    }
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,10 +50,20 @@ public class ColdBoxService {
 
         ColdBoxFoodItem foodItemReadyTobeAdded = new ColdBoxFoodItem(coldBox,foodItemToBeAdded);
 
+        //DEBUG
         System.out.println(foodItemReadyTobeAdded.getFoodItem().getFoodItemName());
         System.out.println(foodItemReadyTobeAdded.getColdBox().getColdBoxId());
+        //END OF DEBUG
 
         coldBox.getColdBoxFoodItems().add(foodItemReadyTobeAdded);
+        coldBoxRepo.save(coldBox);
+        return coldBox;
+    }
+
+    // allow us to add a foodItem to the coldbox and set the expiry date of the item at the same time.
+    ColdBox addFoodItemToColdBox(Long coldBoxId, Long foodItemId , LocalDateTime expiryDate) {
+        ColdBox coldBox = addFoodItemToColdBox(coldBoxId,foodItemId);
+        coldBox.getColdBoxFoodItems().stream().max(Comparator.comparing(ColdBoxFoodItem::getAddedTime)).ifPresent(cbfi -> cbfi.setExpiryDate(expiryDate));
         coldBoxRepo.save(coldBox);
         return coldBox;
     }

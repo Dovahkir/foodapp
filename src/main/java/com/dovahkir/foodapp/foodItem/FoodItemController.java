@@ -32,8 +32,6 @@ public class FoodItemController {
         return foodItemService.saveFoodItem(newFoodItem);
     }
 
-
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     String deleteFoodItem(@PathVariable Long id){

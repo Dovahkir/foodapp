@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,14 @@ public class ColdBoxController {
         ColdBox coldBox = coldBoxService.addFoodItemToColdBox(coldBoxId, foodItemId);
         return ResponseEntity.ok(coldBox);
     }
+    @PutMapping("/{coldBoxId}/{foodItemId}/{expiryDate}")
+    ResponseEntity<ColdBox> addFoodItemToColdBox(@PathVariable Long coldBoxId, @PathVariable Long foodItemId, @PathVariable LocalDateTime expiryDate){
+        ColdBox coldBox = coldBoxService.addFoodItemToColdBox(coldBoxId, foodItemId, expiryDate);
+        return ResponseEntity.ok(coldBox);
+    }
+
+    //TODO: add a PutMapping to modify the expiryTime of specific food item
+
 
     @GetMapping
     List<ColdBox> getAllColdBox(){
