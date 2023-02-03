@@ -33,7 +33,7 @@ public class ColdBoxService {
         return (ColdBox) coldBoxRepo.save(coldBox);
     }
 
-    ColdBox createColdBoxForUserId(Long userId){
+    ColdBox  createColdBoxForUserId(Long userId){
         ColdBox coldBox = new ColdBox(userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("Sorry matey. Not user by that ID found.")));
         return coldBoxRepo.save(coldBox);
     }

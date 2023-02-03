@@ -23,10 +23,11 @@ public class ColdBoxController {
     }
 
     @GetMapping("/{coldBoxId}")
-    ColdBox getColdBox(@PathVariable Long coldBoxId){
-        return coldBoxService.getColdBoxByID(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Cold box not found"));
+    ResponseEntity<ColdBox> getColdBox(@PathVariable Long coldBoxId){
+        return ResponseEntity.ok(coldBoxService.getColdBoxByID(coldBoxId).orElseThrow(() -> new ColdBoxNotFoundException("Cold box not found")));
     }
 
+    //TODO: try using ResponseEntity.created().....
     @PostMapping("/{userId}/createColdBox")
     ResponseEntity<ColdBox> createNewColdBox(@PathVariable Long userId){
         ColdBox coldBox = coldBoxService.createColdBoxForUserId(userId);
@@ -48,8 +49,8 @@ public class ColdBoxController {
 
 
     @GetMapping
-    List<ColdBox> getAllColdBox(){
-        return coldBoxService.getAllColdBox();
+    ResponseEntity<List<ColdBox>> getAllColdBox(){
+        return ResponseEntity.ok(coldBoxService.getAllColdBox());
     }
 //
 //    @GetMapping("/{coldBoxId}/foodItems")
